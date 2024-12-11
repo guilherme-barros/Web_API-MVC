@@ -1,0 +1,41 @@
+@model IEnumerable<Web_API_MVC.Models.PecaViewModel>
+
+@{
+    ViewBag.Title = "Peca";
+}
+<h2>Relação de Computadores</h2>
+<p>
+    @Html.ActionLink("Criar Nova Peca", "Create")
+</p>
+<table class="table">
+    <tr><!--Títulos das colunas da tabela-->
+        <th>@Html.DisplayNameFor(model => model.Id)</th>
+        <th>@Html.DisplayNameFor(model => model.Nome)</th>
+        <th>@Html.DisplayNameFor(model => model.Geracao)</th>
+        <th>@Html.DisplayNameFor(model => model.Marca)</th>
+        <th>@Html.DisplayNameFor(model => model.Descricao)</th>
+        <th>@Html.DisplayNameFor(model => model.TipoPeca)</th>
+        <th>@Html.DisplayNameFor(model => model.Preco)</th>
+        <th>@Html.DisplayNameFor(model => model.ComputadorId)</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Id)</td>
+            <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+            <td>@Html.DisplayFor(modelItem => item.Geracao)</td>
+            <td>@Html.DisplayFor(modelItem => item.Marca)</td>
+            <td>@Html.DisplayFor(modelItem => item.Descricao)</td>
+            <td>@Html.DisplayFor(modelItem => item.TipoPeca)</td>
+            <td>@Html.DisplayFor(modelItem => item.Preco)</td>
+            <td>@Html.DisplayFor(modelItem => item.ComputadorId)</td>
+            <td><!--Coluna para Links/botões-->
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Detalhes", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Deletar", "Delete", new { id = item.Id }
+                    , new { onclick = "return comfirm('Deseja realmente deletar este computador??');" })
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,19 @@
+@model Web_API_MVC.Models.PecaViewModel
+@{
+    ViewBag.Title = "Detalhes da Peca";
+}
+<h2>Detalhes da Peca</h2>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Nome) </dt>
+        <dd>@Html.DisplayFor(model => model.Nome)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Descricao) </dt>
+        <dd>@Html.DisplayFor(model => model.Descricao)</dd>
+        <dt>@Html.DisplayNameFor(model => model.TipoPeca) </dt>
+        <dd>@Html.DisplayFor(model => model.TipoPeca)</dd>
+    </dl>
+</div>
+<p>
+</p>
+@Html.ActionLink("Editar", "Edit", new { id = Model.Id }) | @Html.ActionLink("Retornar", "Index")

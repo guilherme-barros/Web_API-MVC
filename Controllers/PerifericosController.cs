@@ -12,10 +12,10 @@ using Web_API_MVC.Models;
 namespace Web_API_MVC.Controllers
 {
     //[Route("[controller]")]
-    public class ComputadoresController : Controller
+    public class PerifericosController : Controller
     {
-        public string uriBase = "http://guilherme297.somee.com/Web_api/Computadores/";
-
+        public string uriBase = "http://guilherme297.somee.com/Web_api/Perifericos/";
+    
         [HttpGet]
         public async Task<IActionResult> IndexAsync()
         {
@@ -23,16 +23,16 @@ namespace Web_API_MVC.Controllers
             {
                 string uriComplementar = "GetAll";
                 HttpClient httpClient = new HttpClient();
-                string token = HttpContext.Session.GetString("SessionTokenUsuario");
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                //string token = HttpContext.Session.GetString("SessionTokenUsuario");
+                //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 HttpResponseMessage response = await httpClient.GetAsync(uriBase + uriComplementar);
                 string serialized = await response.Content.ReadAsStringAsync();
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    List<ComputadorViewModel> listaComputadores = await Task.Run(() => JsonConvert.DeserializeObject<List<ComputadorViewModel>>(serialized));
-                    return View(listaComputadores);
+                    List<PerifericoViewModel> listaPersonagens = await Task.Run(() => JsonConvert.DeserializeObject<List<PerifericoViewModel>>(serialized));
+                    return View(listaPersonagens);
                 }
                 else
                     throw new System.Exception(serialized);
@@ -46,7 +46,7 @@ namespace Web_API_MVC.Controllers
 
         [HttpPost]
 
-        public async Task<ActionResult> CreateAsync(ComputadorViewModel c)
+        public async Task<ActionResult> CreateAsync(PerifericoViewModel p)
         {
             try
             {
@@ -54,14 +54,14 @@ namespace Web_API_MVC.Controllers
                 string token = HttpContext.Session.GetString("SessionTokenUsuario");
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                var content = new StringContent(JsonConvert.SerializeObject(c));
+                var content = new StringContent(JsonConvert.SerializeObject(p));
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                 HttpResponseMessage response = await httpClient.PostAsync(uriBase, content);
                 string serialized = await response.Content.ReadAsStringAsync();
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    TempData["Mensagem"] = string.Format("Computador {0}, Id {1} salvo com sucesso!", c.Id, serialized);
+                    TempData["Mensagem"] = string.Format("Periferico {0}, Id {1} salvo com sucesso!", p.Nome, serialized);
                     return RedirectToAction("Index");
                 }
                 else
@@ -99,8 +99,8 @@ namespace Web_API_MVC.Controllers
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    ComputadorViewModel c = await Task.Run(() => JsonConvert.DeserializeObject<ComputadorViewModel>(serialized));
-                    return View(c);
+                    PerifericoViewModel p = await Task.Run(() => JsonConvert.DeserializeObject<PerifericoViewModel>(serialized));
+                    return View(p);
                 }
                 else
                     throw new System.Exception(serialized);
@@ -111,6 +111,5 @@ namespace Web_API_MVC.Controllers
                 return RedirectToAction("Index");
             }
         }
-
     }
 }
